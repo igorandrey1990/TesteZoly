@@ -24,23 +24,28 @@ namespace TesteZoly
             // Resultado Experado 18
             int somaMaxContribCaso2 = CalcSomaMax(arrayA, arrayB, FDevs);
 
-            // Caso 2
+            // Caso 3
             arrayA = new int[] { 5, 5, 5 };
             arrayB = new int[] { 5, 5, 5 };
             FDevs = 1;
 
             // Resultado Experado 15
             int somaMaxContribCaso3 = CalcSomaMax(arrayA, arrayB, FDevs);
+
+            // Caso 4
+            arrayA = new int[] { 6, 5, 5, 8, 15, 1, 4, 9 };
+            arrayB = new int[] { 5, 5, 5, 4, 2, 7, 5, 20 };
+            FDevs = 2;
+
+            // Resultado Experado 58
+            int somaMaxContribCaso4 = CalcSomaMax(arrayA, arrayB, FDevs);
         }
 
         public static int CalcSomaMax(int[] arrayA, int[] arrayB, int numDevsFront)
         {
             // Calcula quantidade de devs back-end.
             int numDevsBack = arrayA.Length - numDevsFront;
-
-            // Instancia listas para cada equipe
-            List<int> arrayFront = new List<int>();
-            List<int> arrayBack = new List<int>();
+            int soma = 0;
 
             // Array temporario para quando as contribuições forem iguais.
             List<int> tempArray = new List<int>();
@@ -50,44 +55,40 @@ namespace TesteZoly
             {
                 // Compara valor de A e B e caso o count para numero de devs back-end esteja ja
                 // completo passa para o proximo de A, e por ultimo se ambos são iguais adiciona na lista temp
-                if (arrayA[i] > arrayB[i] || arrayBack.Count == numDevsBack)
+                if ((arrayA[i] > arrayB[i] && numDevsFront != 0) || numDevsBack == 0)
                 {
-                    if (arrayFront.Count <= numDevsFront)
-                        arrayFront.Add(arrayA[i]);
+                    soma = soma + arrayA[i];
+                    numDevsFront--;
                 }
-                else if (arrayB[i] > arrayA[i])
+                else if ((arrayB[i] > arrayA[i] && numDevsBack != 0)|| numDevsFront == 0)
                 {
-                    if (arrayBack.Count < numDevsBack)
-                        arrayBack.Add(arrayB[i]);
+                    soma = soma + arrayB[i];
+                    numDevsBack--;
                 }
                 else if (arrayA[i] == arrayB[i])
                     tempArray.Add(arrayA[i]);
             }
 
             // Caso o numero de devs front for inferior ao numero esperado de devs.
-            if (numDevsFront > arrayFront.Count)
+            if (numDevsFront != 0)
             {
-                // Pega o que faltam e adiciona do array temporario
-                int numDevFaltam = numDevsFront - arrayFront.Count;
                 for (int i = 0; i < numDevsFront; i++)
                 {
-                    arrayFront.Add(tempArray[i]);
+                    soma = soma + tempArray[i];
                 }
             }
 
             // Caso o numero de devs front for inferior ao numero esperado de devs.
-            if (numDevsBack > arrayBack.Count)
+            if (numDevsBack != 0)
             {
-                // Pega o que faltam e adiciona do array temporario
-                int numDevFaltam = numDevsBack - arrayBack.Count;
-                for (int i = 0; i < numDevFaltam; i++)
+                for (int i = 0; i < numDevsBack; i++)
                 {
-                    arrayBack.Add(tempArray[i]);
+                    soma = soma + tempArray[i];
                 }
             }
 
             // Retorna a soma de contribuições de ambas equipes.
-            return  arrayFront.Sum() + arrayBack.Sum();
+            return soma;
         }
 
         
