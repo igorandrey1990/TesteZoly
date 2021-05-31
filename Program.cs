@@ -60,7 +60,7 @@ namespace TesteZoly
                     soma = soma + arrayA[i];
                     numDevsFront--;
                 }
-                else if ((arrayB[i] > arrayA[i] && numDevsBack != 0)|| numDevsFront == 0)
+                else if ((arrayB[i] > arrayA[i] && numDevsBack != 0) || numDevsFront == 0)
                 {
                     soma = soma + arrayB[i];
                     numDevsBack--;
@@ -69,21 +69,18 @@ namespace TesteZoly
                     tempArray.Add(arrayA[i]);
             }
 
-            // Caso o numero de devs front for inferior ao numero esperado de devs.
-            if (numDevsFront != 0)
+            // Soma a contribuição dos devs que eram igual em front e back.
+            for (int i = 0; i < tempArray.Count; i++)
             {
-                for (int i = 0; i < numDevsFront; i++)
+                if (numDevsFront != 0)
                 {
                     soma = soma + tempArray[i];
+                    numDevsFront--;
                 }
-            }
-
-            // Caso o numero de devs front for inferior ao numero esperado de devs.
-            if (numDevsBack != 0)
-            {
-                for (int i = 0; i < numDevsBack; i++)
+                else
                 {
                     soma = soma + tempArray[i];
+                    numDevsBack--;
                 }
             }
 
